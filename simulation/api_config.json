@@ -1,0 +1,22 @@
+{
+    "api_key": "your-api-key",
+    "base_urls": [
+        "http://127.0.0.1:21101/v1",
+        "http://127.0.0.1:21102/v1",
+        "http://127.0.0.1:21103/v1"
+    ],
+    "endpoint_models": {
+        "http://127.0.0.1:21101/v1": {
+            "model": "./Qwen3-8B",
+            "description": "vllm服务 - GPU1 21101"
+        },
+        "http://127.0.0.1:21102/v1": {
+            "model": "./Qwen3-8B",
+            "description": "vllm服务 - GPU2 21102"
+        },
+        "http://127.0.0.1:21103/v1": {
+            "model": "./Qwen3-8B",
+            "description": "vllm服务 - GPU3 21103"
+        }
+    }
+}

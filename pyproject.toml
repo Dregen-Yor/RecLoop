@@ -1,0 +1,32 @@
+[project]
+name = "agent4rec-sgx"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "cython>=3.1.2",
+    "dotenv>=0.9.9",
+    "faiss-cpu>=1.11.0",
+    "langchain>=0.3.26",
+    "langchain-community>=0.3.27",
+    "langchain-openai>=0.3.27",
+    "matplotlib>=3.10.3",
+    "nest-asyncio>=1.6.0",
+    "numpy>=2.3.1",
+    "openpyxl>=3.1.5",
+    "pandas>=2.3.0",
+    "pyyaml>=6.0.2",
+    "recbole>=1.2.0",
+    "scipy>=1.16.0",
+    "seaborn>=0.13.2",
+    "termcolor>=3.1.0",
+    "torch>=2.7.1",
+    "torchvision>=0.22.1",
+    "transformers>=4.53.1",
+    "wandb>=0.21.0",
+]
+
+[[tool.uv.index]]
+url = "https://mirrors.ustc.edu.cn/pypi/simple"
+default = true
