@@ -11,18 +11,25 @@ We explore this with **RecLoop**, a closed-loop simulation framework in which LL
 
 ## News
 
-**[2025/05]** We release  ReLoop, A Closed-Loop Simulation with LLM-Powered Agents.
+**[2025/05]** We release RecLoop, A Closed-Loop Simulation with LLM-Powered Agents.
 
 ## Quick Start
 
-### Installation
+### Step 1: Installation
 
 Make sure `uv` is installed in your environment.
 
 ```bash
 uv sync
 ```
-### Prepare Dataset
+
+For OneRec, you also need to create a separate conda environment:
+
+```bash
+conda env create -f environment.yml
+```
+
+### Step 2: Prepare Dataset
 
 Download the 5-core reviews and metadata for your target dataset from [Amazon Reviews 2014](https://cseweb.ucsd.edu/~jmcauley/datasets/amazon/links.html) into `recommenders/data/Amazon2014/`.
 
@@ -38,14 +45,22 @@ wget https://snap.stanford.edu/data/amazon/productGraph/categoryFiles/reviews_Of
 wget https://snap.stanford.edu/data/amazon/productGraph/categoryFiles/meta_Office_Products.json.gz
 ```
 
-Then run the preprocessing script:
+Then run the preprocessing script to convert raw Amazon review data into the format required by traditional recommenders (e.g., SASRec, Mamba4Rec):
 
 ```bash
 cd recommenders/data
 uv run process2014.py --dataset Office_Products
 ```
 
-### Generate User Profiles
+For OneRec, you also need to run an additional preprocessing script, which converts the preprocessed data into OneRec's training format (including SID index construction and train/valid/test splits):
+
+```bash
+uv run recommenders/generativerec_onerec/data/process2014.py --dataset Office_Products
+```
+
+### Step 3: Generate User Profiles
+
+Before running the simulation, you need to generate LLM-powered user profiles. This script extracts each user's review history and uses an LLM to produce a structured persona (interests, preferences, demographics).
 
 First, configure the `simulation/api_config.json` file with your own API credentials.
 
@@ -53,36 +68,29 @@ First, configure the `simulation/api_config.json` file with your own API credent
 uv run simulation/user_profile_extractor.py --dataset Office_Products
 ```
 
+### Step 4: Run Simulations
 
-### Run Traditional Recommender Simulation
+Choose one of the following simulation scripts to run:
+
+#### Run Traditional Recommender Simulation
+
+This script runs the full closed-loop simulation using traditional sequential recommendation models (SASRec, Mamba4Rec, etc.) from EasySeqRec:
 
 ```bash
 bash simulation/run_simulation_round_traditional.sh
 ```
 
-### Run Tiger Generative Recommender Simulation
+#### Run Tiger Generative Recommender Simulation
+
+This script runs the full closed-loop simulation using the TIGER generative recommender from Liger:
 
 ```bash
 bash simulation/run_simulation_round_generative_tiger.sh
 ```
 
-### Run OneRec Generative Recommender Simulation
+#### Run OneRec Generative Recommender Simulation
 
-OneRec requires a separate conda environment and an additional data preprocessing step.
-
-First, create the conda environment from the provided configuration file:
-
-```bash
-conda env create -f environment.yml
-```
-
-Then, run the OneRec-specific data preprocessing script:
-
-```bash
-uv run recommenders/generativerec_onerec/data/process2014.py --dataset Office_Products
-```
-
-Finally, modify the `$PYTHON` variable in `simulation/generative_recommend_onerec.sh` to point to the Python interpreter of your newly created conda environment (e.g., `/path/to/your/conda/envs/recloop/bin/python`).
+This script runs the full closed-loop simulation using the OneRec generative recommender from MiniOneRec. Before running, modify the `$PYTHON` variable in `simulation/generative_recommend_onerec.sh` to point to the Python interpreter of your conda environment (e.g., `/path/to/your/conda/envs/recloop/bin/python`).
 
 ```bash
 bash simulation/run_simulation_round_generative_onerec.sh
