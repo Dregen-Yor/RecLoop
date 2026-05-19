@@ -11,7 +11,7 @@ We explore this with **RecLoop**, a closed-loop simulation framework in which LL
 
 ## News
 
-**[2025/05]** We release RecLoop, A Closed-Loop Simulation with LLM-Powered Agents.
+**[2026/05]** We release RecLoop, A Closed-Loop Simulation with LLM-Powered Agents.
 
 ## Quick Start
 
